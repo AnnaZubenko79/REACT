@@ -9,7 +9,7 @@ function Comment(props) {
   return (
     <div className="comment">
       <div className="comment__text">{props.text}</div>
-      <UserInfo user={props.user} />
+      <UserInfo user={props.author} />
       <div className="comment__date">{formatDate(props.date)}</div>
     </div>
   );
