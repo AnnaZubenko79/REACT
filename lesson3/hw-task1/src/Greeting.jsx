@@ -1,18 +1,10 @@
 import React from 'react';
 
-const userAge = (birthDate) => {
-  const diffAge = new Date() - birthDate;
-  const age = new Date(diffAge).getHours();
-  return age;
-};
-
 const Greeting = (props) => {
+  const age = new Date(new Date() - props.birthDate).getHours();
   return (
     <div className="greeting">
-      {`My name is ${props.firstName} ${props.lastName}. I'm ${userAge(
-        props.birthDate
-      )} years
-      old`}
+      {`My name is ${props.firstName} ${props.lastName}. I'm ${age} years old`}
     </div>
   );
 };
