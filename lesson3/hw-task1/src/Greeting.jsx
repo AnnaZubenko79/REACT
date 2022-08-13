@@ -9,9 +9,9 @@ const userAge = (birthDate) => {
 const Greeting = (props) => {
   return (
     <div className="greeting">
-      {`My name is ${props.user.firstName} ${
-        props.user.lastName
-      }. I'm ${userAge(props.user.birthDate)} years
+      {`My name is ${props.firstName} ${props.lastName}. I'm ${userAge(
+        props.birthDate
+      )} years
       old`}
     </div>
   );
