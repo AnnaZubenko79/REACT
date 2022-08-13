@@ -6,7 +6,7 @@ const userAge = (birthDate) => {
   return age;
 };
 
-const Greetings = (props) => {
+const Greeting = (props) => {
   return (
     <div className="greeting">
       {`My name is ${props.user.firstName} ${
