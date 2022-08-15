@@ -3,7 +3,7 @@ import Online from './Online';
 import Offline from './Offline';
 
 const Status = (isOnline) => {
-  return <div class="status">{isOnline ? <Offline /> : <Online />}</div>;
+  return <div class="status">{isOnline ? <Online /> : <Offline />}</div>;
 };
 
 export default Status;
