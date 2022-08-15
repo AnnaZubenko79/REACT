@@ -2,8 +2,6 @@ import React from 'react';
 import Online from './Online';
 import Offline from './Offline';
 
-const Status = (isOnline) => {
-  return <div class="status">{isOnline ? <Online /> : <Offline />}</div>;
-};
+const Status = (props) => (props.isOnline ? <Online /> : <Offline />);
 
 export default Status;
