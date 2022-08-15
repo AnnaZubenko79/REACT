@@ -1,7 +1,11 @@
 import React from 'react';
 
 const Login = ({ onLogin }) => {
-  return <button onClick={onLogin}>Login</button>;
+  return (
+    <button className="btn login" onClick={onLogin}>
+      Login
+    </button>
+  );
 };
 
 export default Login;

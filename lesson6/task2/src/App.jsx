@@ -1,8 +1,8 @@
 import React from 'react';
-import Toggler from './Toggler';
+import Mailbox from './Mailbox';
 
 const App = () => {
-  return <Toggler />;
+  return <Mailbox unreadMessages={['a', 'b', 'c']} />;
 };
 
 export default App;
