@@ -1,8 +1,8 @@
 import React from 'react';
-import Toggler from './Toggler';
+import Page from './Page';
 
 const App = () => {
-  return <Toggler />;
+  return <Page />;
 };
 
 export default App;
