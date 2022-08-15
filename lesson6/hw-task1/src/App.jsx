@@ -1,8 +1,8 @@
 import React from 'react';
-import Toggler from './Toggler';
+import Status from './Status';
 
 const App = () => {
-  return <Toggler />;
+  return <Status isOnline={false} />;
 };
 
 export default App;

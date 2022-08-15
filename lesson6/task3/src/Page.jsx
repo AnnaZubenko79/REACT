@@ -5,12 +5,10 @@ let text1 = 'Hello, world!';
 let text2 = 'Another exciting text.';
 
 class Page extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      text: null,
-    };
-  }
+  state = {
+    text: null,
+  };
+
   setText = (text) => {
     this.setState({
       text,
