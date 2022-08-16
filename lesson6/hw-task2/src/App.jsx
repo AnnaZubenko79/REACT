@@ -1,8 +1,8 @@
 import React from 'react';
-import Toggler from './Toggler';
+import Auth from './Auth';
 
 const App = () => {
-  return <Toggler />;
+  return <Auth />;
 };
 
 export default App;
