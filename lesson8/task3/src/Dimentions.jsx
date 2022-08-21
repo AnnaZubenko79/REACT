@@ -15,11 +15,13 @@ class Dimentions extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
   }
+
   onResize = (e) => {
     const { innerWidth, innerHeight } = e.target;
 
     this.setDimentions(innerWidth, innerHeight);
   };
+
   setDimentions = (width, height) => {
     this.setState({
       width,
@@ -27,6 +29,7 @@ class Dimentions extends React.Component {
     });
     document.title = `${innerWidth} x ${innerHeight}`;
   };
+
   render() {
     return (
       <div className="dimensions">{`${this.state.width}px - ${this.state.height}px`}</div>
