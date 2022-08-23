@@ -383,6 +383,12 @@ class Life extends Component {
 
 В РЕАКТприложениях предпочтительнее сontrolled подход.
 ![Controlled/uncontrolled component](images/forms-components.png)
+
+Важно задавать начальное состояние инпутов, иначе компоненты будут uncontrolled по умолчанию.
+Большинство инпутов работают также как в HTML, есть некоторые отличия. Например select, в HTML мы отмеченный элемент маркаем как selected, то в Реакте в value просто надо передать отмеченный
+
+![Библиотеки для работы с формами](images/library-form.png)
+
 ```javascript
 
 ```
