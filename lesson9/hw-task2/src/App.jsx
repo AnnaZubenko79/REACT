@@ -1,8 +1,8 @@
 import React from 'react';
-import ConnectionStatus from './ConnectionStatus';
+import Game from './Game';
 
 const App = () => {
-  return <ConnectionStatus />;
+  return <Game />;
 };
 
 export default App;
