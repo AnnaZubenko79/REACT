@@ -1,9 +1,8 @@
 import React from 'react';
+import Calculator from './Calculator';
 
-
-const numbers = [1, 2, 3, 4, 5];
 const App = () => {
-  return < />;
+  return <Calculator />;
 };
 
 export default App;
