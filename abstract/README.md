@@ -14,6 +14,7 @@
 1. [Lesson8_Lifecycle_methods](#LIFECYCLE_METHODS)
 1. [Lesson9_Forms](#FORMS)
 1. [Lesson10_Lifting_state_up](#Lifting_state_up)
+1. [Lesson11_Component_update](#Component_update)
 
 ## React-intro
 
@@ -73,7 +74,7 @@ ReactDom.render(<App />, rootElement);
 //============================
 
 ```javascript
-const Greeting = (props) => {
+const Greeting = props => {
   if (props.isLoggedIn) {
   }
 };
@@ -83,7 +84,7 @@ const Greeting = (props) => {
 
 ```javascript
 // зачастую в props приходит не одно свойство и в таких случаях удобно использовать деструктуризацию
-const Greeting = (props) => {
+const Greeting = props => {
   const { isLoggedIn } = props;
   if (isLoggedIn) {
   }
@@ -242,11 +243,7 @@ class Counter extends React.Component {
   render() {
     return (
       <div className="counter">
-        <button
-          data-action="decrease"
-          className="counter__button"
-          onClick={this.decrement}
-        >
+        <button data-action="decrease" className="counter__button" onClick={this.decrement}>
           -
         </button>
         {/* третий способ привязки контекста это свойство стрелочной ф-ции, что не имеет свой контекст и использует внешний контекст. 
@@ -254,11 +251,7 @@ class Counter extends React.Component {
         <span className="counter__value" onClick={() => this.reset()}>
           {this.state.counter}
         </span>
-        <button
-          data-action="increase"
-          className="counter__button"
-          onClick={this.increment}
-        >
+        <button data-action="increase" className="counter__button" onClick={this.increment}>
           +
         </button>
       </div>
@@ -307,7 +300,7 @@ const User = ({ name, age }) => {
 const UserList = ({ users }) => {
   return (
     <ul className="users">
-      {users.map((user) => (
+      {users.map(user => (
         <User key={user.name} name={user.name} age={user.age} />
       ))}
     </ul>
@@ -321,7 +314,7 @@ const UserList = ({ users }) => {
 const UserList = ({ users }) => {
   return (
     <ul className="users">
-      {users.map((user) => (
+      {users.map(user => (
         <User key={user.name} {...user} />
       ))}
     </ul>
@@ -404,6 +397,8 @@ class Life extends Component {
 **_ДАННЫЕ ПАДАЮТ ВНИЗ ЧЕРЕЗ PROPS ОБРАТНО МЫ МОЖЕМ ЗАКИНУТЬ ИХ ЧЕРЕЗ КОЛБЭКИ ЧЕРЕЗ EVENTS_**
 если упростить вышеуказанную схему и избавиться от всех компонент, условно у нас есть какое-то состояние и есть компоненты, которые отрисовывают наш UI. Из состояния данные падают в UI, на страничке пользователь выполняет какие-то действия (что-то кликает, набирает, возвращает) и через колбэки эти данные возвращаются обратно и изменяют состояние, затем когда изменилось состояние Реакт понимает, что надо перерисовать UI. Таким образом и получается однонаправленный поток данных
 ![Однонаправленный поток данных-2](images/unidirectional-2.png) 2) Поднятие состояния (lifting state) 3)
+
+## Component_update
 
 ```javascript
 
