@@ -1,5 +1,5 @@
 import React from 'react';
-import Expand from './Expand.jsx';
+import Expand from './Expand';
 
 class App extends React.Component {
   render() {

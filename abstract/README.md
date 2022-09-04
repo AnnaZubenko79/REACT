@@ -15,6 +15,7 @@
 1. [Lesson9_Forms](#FORMS)
 1. [Lesson10_Lifting_state_up](#Lifting_state_up)
 1. [Lesson11_Component_update](#Component_update)
+1. [Lesson12_Practice](#Practice)
 
 ## React-intro
 
@@ -399,6 +400,196 @@ class Life extends Component {
 ![Однонаправленный поток данных-2](images/unidirectional-2.png) 2) Поднятие состояния (lifting state) 3)
 
 ## Component_update
+
+```javascript
+
+import React from 'react';
+import TodoList from './TodoList';
+
+// Этапы
+// создадим UI
+// Добавим интерактивность
+// Наладим общение с сервером
+
+const App = () => {
+  return <TodoList />;
+};
+export default App;
+import React from 'react';
+import TasksList from './TasksList';
+
+const TodoList = () => {
+  return (
+    <>
+      <h1 className="title">Todo List</h1>
+      <TasksList />
+    </>
+  );
+};
+export default TodoList;
+
+import React from 'react';
+// на кнопку повешаем обработчик, который при нажатии на кнопку возьмет текст с инпута и создаст с ним задачу
+// чтобы сделать состояние инпута контролируемым добавляем state
+// и в конце очищаем наш инпут this.setState({ value: '' });
+class CreateTaskInput extends React.Component {
+  state = {
+    value: '',
+  };
+
+  handleChange = event => {
+    this.setState({
+      value: event.target.value,
+    });
+  };
+
+  handleTaskCreate = () => {
+    this.props.onCreate(this.state.value);
+    this.setState({ value: '' });
+  };
+
+  render() {
+    return (
+      <div className="create-task">
+        <input
+          className="create-task__input"
+          type="text"
+          value={this.state.value}
+          onChange={this.handleChange}
+        />
+        <button className="btn create-task__btn" onClick={this.handleTaskCreate}>
+          Create
+        </button>
+      </div>
+    );
+  }
+}
+
+export default CreateTaskInput;
+
+// 1. take text from input
+// 2 create task with this text
+// 3. add created task to the list
+
+
+
+import React from 'react';
+import CreateTaskInput from './CreateTaskInput';
+import Task from './Task';
+
+// выше нам список задач не нужен, поэтому здесь сохраняем его в состоянии state и переделываем компоненту на классовую
+// в состояние запишем наши задачи
+// c помощью метода map отрисуем наши задачи в список и вынесем его в отдельную компоненту
+// обязательно всем элементам раздать ключи key={task.id}. Ключи присваиваем в том месте где будет отрисовываться элемент, т.е. в TasksList, а не в компоненте Task, где мы создаем лишки
+// для checkbox нужно указать состояние. У checkbox в Реакт есть нюанс, его состояние записывается не в value, a в свойство defaultChecked
+// {...task} === (id={task.id} done={task.done} text={task.text})
+// tasks хранятся у нас в state, чтоы добавить новую таску создаем переменную const newTask и с помощью метода concat объединяем ее
+// со старыми в переменной updatedTasks. Устанавливаем в состояние this.setState({ tasks: updatedTasks })
+// запишем данные на сервер с помощью fetch
+const baseUrl = 'https://62e3f5a5c6b56b45117f936b.mockapi.io/api/v1/tasks';
+class TasksList extends React.Component {
+  state = {
+    tasks: [],
+  };
+
+  onCreate = text => {
+    // 1. Create task object
+    // 2. Post object to server
+    // 3. Fetch list from server
+    // const { tasks } = this.state;
+    const newTask = {
+      id: this.state.tasks.length + 1,
+      text,
+      done: false,
+    };
+
+    fetch(baseUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;utc-8',
+      },
+      body: JSON.stringify(newTask),
+    }).then(response => {
+      if (response.ok) {
+        fetch(baseUrl)
+          .then(res => {
+            if (res.ok) {
+              return res.json();
+            }
+          })
+          .then(tasksList => {
+            this.setState({
+              tasks: tasksList,
+            });
+          });
+      } else {
+        throw new Error('Faild to create task');
+      }
+    });
+    // const updatedTasks = tasks.concat(newTask);
+    // this.setState({ tasks: updatedTasks });
+  };
+
+  handleTaskStatusChange = id => {
+    // 1. Find task in a list (для этого надо пройти по tasks: и когда найдем нужную задачу, то переключить ее состояние)
+    // 2. Toggle done value
+    // 3. Save updated list
+    const updatedTasks = this.state.tasks.map(task => {
+      if (task.id === id) {
+        return {
+          ...task,
+          done: !task.done,
+        };
+      }
+      return task;
+    });
+    this.setState({ tasks: updatedTasks });
+  };
+
+  handleTaskDelete = id => {
+    // 1. Filter tasks
+    // 2. Update state
+    const updatedTasks = this.state.tasks.filter(task => task.id !== id);
+    this.setState({ tasks: updatedTasks });
+  };
+
+  render() {
+    const sortedList = this.state.tasks.slice().sort((a, b) => a.done - b.done);
+    return (
+      <main className="todo-list">
+        <CreateTaskInput onCreate={this.onCreate} />
+        <ul className="list">
+          {sortedList.map(task => (
+            <Task
+              key={task.id}
+              {...task}
+              onDelete={this.handleTaskDelete}
+              onChange={this.handleTaskStatusChange}
+            />
+          ))}
+        </ul>
+      </main>
+    );
+  }
+}
+
+export default TasksList;
+
+```
+
+## Practice
+
+```javascript
+
+```
+
+```javascript
+
+```
+
+```javascript
+
+```
 
 ```javascript
 
