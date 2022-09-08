@@ -16,6 +16,7 @@
 1. [Lesson10_Lifting_state_up](#Lifting_state_up)
 1. [Lesson11_Component_update](#Component_update)
 1. [Lesson12_Practice](#Practice)
+1. [Lesson12_React_Router](#React_Router)
 
 ## React-intro
 
@@ -587,12 +588,87 @@ export default TasksList;
 
 ```
 
-```javascript
+## React_Router
 
+![SPA vs regular website](images/spa-vs-multiple.png)
+Single page application
+**_react-router-dom_** это библиотека (поможет для создания сайта с несколькими страницами)
+
+- механизм для переключения страниц
+- считывание данных с URL строки
+- работа с историей переходов по сайту
+
+Для установки необходимо установить зависимость _npm i -S react-router-dom_ и импортировать Router _import {Router} from 'react-router-dom'_.
+При этом в библиотеке есть **_4 разных роутера_**:
+![Routers](images/routers.png)
+<BrowserRouter> - чаще всего используется в данный момент для обычной навигации по сайту. Состояние приложения, которое сейчас отображается синхронизируется с URL в адресной строке.
+Для работы с <BrowserRouter> нам его также нужно импортировать в наш файл _import {BrowserRouter} from 'react-router-dom'_.
+<MemoryRouter> - покрывает специфические кейсы, с его помощью мы тоже можем определенным образом навигироваться по сайту, но при этом не меняется URL. Исходя из названия, мы можем понять, где находится пользователь в данный момент (location хранится в оперативной памяти)
+
+### Работа с BrowserRouter (первая часть роутинга)
+
+На страничке все что относится к навигации нашего приложения должно находиться по дереву компонент внутри <BrowserRouter></BrowserRouter>, все что мы расположим вне этой компоненты работать не будет. И внутри <BrowserRouter> у нас должны размещаться Routes (их тоже нужно импортировать из react-router-dom), в которые мы заворачиваем каждую страничку и внутри которых в свойстве path прописываем пути по которым будут отображаться наши странички.
+При этом может появиться проблема, что корневая страница, путь к которой указывается просто / (слэшом), потом будет отрисовываться и с другими страницами в пути которых есть / (/products), чтобы пофиксить это нужно в роут главной страницы добавить свойство exact.
+Затем все наши роуты нужно обернуть в структуру <Switch></Switch>
+
+```javascript
+import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Contacts from './Contacts';
+import Home from './Home';
+import Products from './Products';
+
+const App = () => (
+  <div className="page">
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/products">
+          <Products />
+        </Route>
+        <Route path="/contacts">
+          <Contacts />
+        </Route>
+      </Switch>
+    </BrowserRouter>
+  </div>
+);
 ```
 
-```javascript
+### Навиация (вторая часть роутинга)
 
+Если в чистом HTML мы переходим по ссылкам с помощью тэга <a></a>,то когда мы строим SPA и используем 'react-router-dom' для приложения, то нам понадобится компонента Link из этой библиотеки. При переходе по ссылкам в этом случае не происходит перезагрузка страницы
+
+```javascript
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const Contacts = () => {
+  return (
+    <div className="page__content">
+      <h1>Contacts</h1>
+      <Link to="/">Go home</Link>
+    </div>
+  );
+};
+```
+
+Чтобы при загрузке страницы на каком то некорневом пути у нас нормально отрисовывался сайт нужен дополнительный html (типо /products.html), но так как у нас html один, то нужна надстройка для webpack.config, которая укажет серверу, что наш файл лежит в корне и мы работаем с ним:
+
+```javascript
+devServer: {
+      historyApiFallback: true,
+    },
+```
+
+Если мы перейдем по какому то пути которого у нас нет, мы можем с помощью роута сделать что-то в духе 404ошибки, при этом он должен находиться в конце списка, так как звездочка указывает, что это любой путь и компонента <Switch> его будет всегда показывать, поэтому если мы разместим этот роут первым, то к другим файлам мы не сможем перейти
+
+```javascript
+<Route path="*">
+  <PageNotFound />
+</Route>
 ```
 
 <!-- <a name="types--primitives"></a><a name="1.1"></a>
