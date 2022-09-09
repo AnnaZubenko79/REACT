@@ -753,6 +753,44 @@ const Products = ({ match }) => (
 
 Не так давно в библиотеке реакт появились хуки и один из них useParams реализован в библиотеке реакт-роутер-дом. С его помощью мы можем доставать параметры в наших компонентах даже без использования вышеописанного подхода
 
+```javascript
+import React from 'react';
+import { Route, Link, Switch, useParams } from 'react-router-dom';
+import Product from './Product';
+
+const Products = ({ match }) => (
+  <div className="page__content">
+    <h1>Products</h1>
+    <ul className="navigation">
+      <li className="navigation__item">
+        <Link to={`${match.url}/book`}>Book</Link>
+      </li>
+      <li className="navigation__item">
+        <Link to={`${match.url}/ball`}>Ball</Link>
+      </li>
+    </ul>
+    <Switch>
+      <Route exact path={match.url}>
+        <span>Select a product please</span>
+      </Route>
+      <Route path={`${match.url}/:productId`}>
+        <Product />
+      </Route>
+    </Switch>
+  </div>
+);
+
+import React from 'react';
+import { useParams } from 'react-router-dom';
+
+const Product = () => {
+  const { productId } = useParams();
+  return <div className="product">{`Product is ${productId}`}</div>;
+};
+
+export default Product;
+```
+
 <!-- <a name="types--primitives"></a><a name="1.1"></a>
   - [1.1](#types--primitives) **Primitives**: When you access a primitive type you work directly on its value.
 
