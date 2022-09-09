@@ -25,7 +25,7 @@
 // export default Products;
 
 import React from 'react';
-import { Link, Switch, Route, useParams } from 'react-router-dom';
+import { Link, Switch, Route } from 'react-router-dom';
 import Product from './Product';
 
 function Products({ match }) {
