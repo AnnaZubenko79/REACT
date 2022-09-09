@@ -16,7 +16,8 @@
 1. [Lesson10_Lifting_state_up](#Lifting_state_up)
 1. [Lesson11_Component_update](#Component_update)
 1. [Lesson12_Practice](#Practice)
-1. [Lesson12_React_Router](#React_Router)
+1. [Lesson13_React_Router](#React_Router)
+1. [Lesson14_React_Hooks](#React_Hooks)
 
 ## React-intro
 
@@ -670,6 +671,87 @@ devServer: {
   <PageNotFound />
 </Route>
 ```
+
+Для более глубокого роутинга нам нужно, в компоненте с которой будет проходить дальнейший роут в линки передать куда именно мы будем переходить. Кроме этого, в роут нужно прописать статический и дальнейший URL (параметр через двоеточие) (<Route path="/products/:productId" />) и компоненту с которой будет выполняться переход.
+Чтобы считать информацию, которую мы передаем через URL, компоненту Product передаем в роут не как дочерний элемент, а в свойство component={Product}
+
+```javascript
+import React from 'react';
+import { Route, Link, Switch } from 'react-router-dom';
+import Product from './Product';
+
+const Products = () => (
+  <div className="page__content">
+    <h1>Products</h1>
+    <ul className="navigation">
+      <li className="navigation__item">
+        <Link to="/products/book">Book</Link>
+      </li>
+      <li className="navigation__item">
+        <Link to="/products/ball">Ball</Link>
+      </li>
+    </ul>
+    <Switch>
+      <Route exact path="/products">
+        // будет отображаться до того, как мы выберем продукт
+        <span>Select a product please</span>
+      </Route>
+      <Route path="/products/:productId" component={Product} />
+    </Switch>
+  </div>
+);
+```
+
+После того как мы передали компоненту Product напрямую в роут <Route path="/products/:productId" component={Product} /> роут предоставляет ей некоторые дополнительные свойства (передаем через пропс с помощью рест и можем вывести в консоль чтобы изучить), через которые мы можем получить информацию для навигации, для дальнейшей работы с URL.
+
+```javascript
+const Product = ({ ...rest }) => {
+  console.log(rest);
+  return <div className="product">ball</div>;
+};
+```
+
+Например в свойстве match есть свойство params (формируется, когда мы через двоеточие передаем path="/products/:productId" все что после второго слэша будет попадать в productId), в котором есть все параметры из URL.
+
+![Свойство match](images/match-console.png)
+Теперь мы можем сразу деструктурировать свойство компонента и вместо рест вывести match и вместо продукта уже из свойства params получим значение productId
+
+```javascript
+const Product = ({ match }) => (
+  <div className="product">{`Product is ${match.params.productId}`}</div>
+);
+```
+
+Также при написании длинных путей в роут мы можем сформировать путь с помощью данных из match **_только не забываем, что компоненту Products нужно передать в свойство component в Route_**
+
+```javascript
+const Products = ({ match }) => (
+  <div className="page__content">
+    <h1>Products</h1>
+    <ul className="navigation">
+      <li className="navigation__item">
+        <Link to={`${match.url}/book`}>Book</Link>
+      </li>
+      <li className="navigation__item">
+        <Link to={`${match.url}/ball`}>Ball</Link>
+      </li>
+    </ul>
+  </div>
+);
+```
+
+Здесь нам также в вебпак конфиг (если мы его настраиваем вручную, а не через create app) нужна надстройка, потому что наше приложение снова не понимает путь (не находит html), с которого ему нужно брать информацию publicPath: '/' - будет отправлять все запросы в корневой каталог откуда ему нужно брать информацию
+
+```javascript
+  output: {
+     filename: 'bundle.js',
+     publicPath: '/',
+   },
+```
+
+## React_Hooks
+
+Не так давно в библиотеке реакт появились хуки и один из них useParams реализован в библиотеке реакт-роутер-дом. С его помощью мы можем доставать параметры в наших компонентах даже без использования вышеописанного подхода
 
 <!-- <a name="types--primitives"></a><a name="1.1"></a>
   - [1.1](#types--primitives) **Primitives**: When you access a primitive type you work directly on its value.
