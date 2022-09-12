@@ -14,10 +14,10 @@ const Users = ({ match }) => (
       </li>
     </ul>
     <Switch>
-      <Route path={match.url}>
-        <span>Select a product please</span>
-      </Route>
       <Route path={`${match.url}/:userId`} component={User} />
+      <Route path="">
+        <span>Select a user please</span>
+      </Route>
     </Switch>
   </div>
 );
