@@ -1,9 +1,6 @@
 import React from 'react';
+import ConnectionStatus from './ConnectionStatus';
 
-class App extends React.Component {
-  render() {
-    return <div className="app">hi</div>;
-  }
-}
+const App = () => <ConnectionStatus />;
 
 export default App;
